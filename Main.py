@@ -13,12 +13,19 @@ def getHistoricalData(ticker, interval):
 def get_historical_quotes(ticker, interval):
     quotes = None
 
-    print(getHistoricalData(ticker, interval))
+    #print(getHistoricalData(ticker, interval))
 
-    #returnData = json.loads(getHistoricalData(ticker, interval))
+    returnData = json.loads(getHistoricalData(ticker, interval))
     #print(returnData)
-    #for item in returnData['items']:
-    #    print(item)
+    for item in returnData['items']:
+        date = returnData['items'][item]['date']
+        open = returnData['items'][item]['open']
+        high = returnData['items'][item]['high']
+        low = returnData['items'][item]['low']
+        close = returnData['items'][item]['close']
+        volume = returnData['items'][item]['volume']
+        quote = Quote(date, open, high, low, close, volume)
+        quotes.append(quote)
 
 get_historical_quotes("MSFT", "1d")
     
