@@ -1,4 +1,4 @@
-import Stradegy
+from Stradegy import Stradegy
 
 stradegyList = []
 game = True

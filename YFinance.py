@@ -1,6 +1,7 @@
 import requests 
 import json
 from stock_indicators.indicators.common.quote import Quote
+import datetime
 
 api_key = "e12d9d9af3mshcb72c7f3893119bp129decjsn38df9d01169a"
 
@@ -22,17 +23,21 @@ def getHistoricalData(ticker, interval):
 #getHistoricalData("MSFT", "1d")
 
 def get_historical_quotes(ticker, interval):
+    quotes = []
 
     returnData = json.loads(getHistoricalData(ticker, interval))
     for item in returnData['items']:
-        date = returnData['items'][item]['date']
+        unixTime = returnData['items'][item]['date_utc']
+        date = datetime.datetime.fromtimestamp(unixTime)
         open = returnData['items'][item]['open']
         high = returnData['items'][item]['high']
         low = returnData['items'][item]['low']
         close = returnData['items'][item]['close']
         volume = returnData['items'][item]['volume']
         quote = Quote(date, open, high, low, close, volume)
-        return quote
+        quotes.append(quote)
+        
+    return quote
 
 get_historical_quotes("MSFT", "1d")
 
