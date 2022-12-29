@@ -9,5 +9,3 @@ def __init__(self, firstValue, second_value, condition):
     self.secondValue = secondValue
     self.condition = condition
 
-def checkStatus():
-    if self.condition 
