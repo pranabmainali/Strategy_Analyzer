@@ -1,6 +1,7 @@
 from Stradegy import Stradegy
 import Indicator
 from Indicator import listOfIndicators
+from ListEnum import conditionEnum
 
 stradegyList = []
 game = True
@@ -13,7 +14,16 @@ def addCondition():
     for i in range(len(Indicator.listOfIndicators)):
         print(i+". "+Indicator.listOfIndicators[i].value)
     indicatorNum = input()
-    
+
+    #This is where the methods will be called to add indicators
+
+    #between
+    print("Please choose the number for which condition you want to use")
+    for i in range(len(Indicator.listOfIndicators)):
+        print(i+". "+Indicator.listOfIndicators[i].value)
+    indicatorNum = input()
+
+
 
 def changeBuyCondition(currentStradegy):
     userInput = None
