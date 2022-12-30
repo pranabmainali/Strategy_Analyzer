@@ -17,6 +17,12 @@ class Stradegy:
         self.maximumDataConverageDate = self.candles[0].date
         return self.maximumDataConverageDate
 
+    def addBuyCondition(self, condition):
+        self.buyCondition.append(condition)
+
+    def addSellCondition(self, condition):
+        self.sellCondition.append(condition)
+
     def runStradegy():
         return 0
 

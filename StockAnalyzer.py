@@ -1,4 +1,6 @@
 from Stradegy import Stradegy
+import Indicator
+from Indicator import listOfIndicators
 
 stradegyList = []
 game = True
@@ -6,15 +8,41 @@ game = True
 print("Welcome to the Stock Analyzer program!")
 print(" ")
 
+def addCondition():
+    print("Please choose the number for which the indicator you want to set as condition")
+    for i in range(len(Indicator.listOfIndicators)):
+        print(i+". "+Indicator.listOfIndicators[i].value)
+    indicatorNum = input()
+    
+
 def changeBuyCondition(currentStradegy):
-    print("Here are your current buy conditions : ")
-    for condition in currentStradegy.sellConditions:
-        print(condition.stringVersion)
+    userInput = None
+    if (len(currentStradegy.buyConditions)==0):
+        userInput = input("You currently dont have any conditions, Press A to add, or X to go back")
+    else:
+        print("Here are your current buy conditions : ")
+        for condition in currentStradegy.buyConditions:
+            print(condition.stringVersion)
+        userInput = input("Enter the condition number to make changes to it. Or press a to add condition, or press x to exit")
+    userInput = userInput.capitalize()
+
+    if userInput=="A":
+        currentStradegy.addBuyCondition(addCondition())
+    
 
 def changeSellCondition(currentStradegy):
-    print("Here are your current sell conditions : ")
-    for condition in currentStradegy.sellConditions:
-        print(condition.stringVersion)
+    userInput = None
+    if (len(currentStradegy.sellConditions)==0):
+        userInput = input("You currently dont have any conditions, Press A to add, or X to go back")
+    else:
+        print("Here are your current buy conditions : ")
+        for condition in currentStradegy.sellConditions:
+            print(condition.stringVersion)
+        userInput = input("Enter the condition number to make changes to it. Or press a to add condition, or press x to exit")
+    userInput = userInput.capitalize()
+
+    if userInput=="A":
+        currentStradegy.addSellCondition(addCondition())
 
 
 def createStradegy():
