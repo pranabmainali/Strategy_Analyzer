@@ -10,7 +10,7 @@ game = True
 print("Welcome to the Stock Analyzer program!")
 print(" ")
 
-def addCondition():
+def addCondition(stradegyNum):
     print("Please choose the number for which the indicator you want to set as condition")
     for i in range(len(Indicator.indicatorList)):
         print(i,". ",Indicator.indicatorList[i].value)
@@ -35,7 +35,7 @@ def addCondition():
 
     return currentCondition
 
-def changeBuyCondition(conditions):
+def changeBuyCondition(conditions, stradegyNum):
     buyConditions = conditions
     userInput = None
     if (len(buyConditions)==0):
@@ -48,12 +48,12 @@ def changeBuyCondition(conditions):
     userInput = userInput.capitalize()
 
     if userInput=="A":
-        buyConditions.append(addCondition())
+        buyConditions.append(addCondition(stradegyNum))
 
     return buyConditions
     
 
-def changeSellCondition(conditions):
+def changeSellCondition(conditions, stradegyNum):
     sellConditions = conditions
     userInput = None
     if (len(sellConditions)==0):
@@ -66,7 +66,7 @@ def changeSellCondition(conditions):
     userInput = userInput.capitalize()
 
     if userInput=="A":
-        sellConditions.append(addCondition())
+        sellConditions.append(addCondition(stradegyNum))
 
     return sellConditions
 
@@ -74,6 +74,7 @@ def changeSellCondition(conditions):
 def createStradegy():
     stradegyName = input("What is this stradegy going to be called?")
     currentStradegy = Stradegy(stradegyName)
+    currentStradegyNum = len(stradegyList) 
     stock = input("Please enter your stock's ticker symbol . Example (MSFT)")
     stock = stock.capitalize()
     interval = input("Please input the interval in which you want your data. One of (5m, 15m, 30m, 1h, 1d, 1wk, 1mo, 3mo)")
@@ -87,9 +88,9 @@ def createStradegy():
 
     userInput = userInput.lower()
     if (userInput == "s"):
-        currentStradegy.sellCondition = changeSellCondition(currentStradegy.sellCondition)
+        currentStradegy.sellCondition = changeSellCondition(currentStradegy.sellCondition, currentStradegyNum)
     elif (userInput == "b"):
-        currentStradegy.buyCondition = changeBuyCondition(currentStradegy.buyCondition)
+        currentStradegy.buyCondition = changeBuyCondition(currentStradegy.buyCondition, currentStradegyNum)
     elif (userInput == "x"):
         if (len(currentStradegy.buyCondition)>0 and len(currentStradegy.sellCondition)>0):
             stradegyReport = currentStradegy.run()
