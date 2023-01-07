@@ -2,6 +2,7 @@ from Stradegy import Stradegy
 import Indicator
 from Indicator import listOfIndicators
 from ListEnum import conditionEnum
+from Condition import Condition
 
 stradegyList = []
 game = True
@@ -11,48 +12,63 @@ print(" ")
 
 def addCondition():
     print("Please choose the number for which the indicator you want to set as condition")
-    for i in range(len(Indicator.listOfIndicators)):
-        print(i+". "+Indicator.listOfIndicators[i].value)
+    for i in range(len(Indicator.indicatorList)):
+        print(i,". ",Indicator.indicatorList[i].value)
     indicatorNum = input()
+    firstIndicator = Indicator.getIndicator(indicatorNum)
 
-    #This is where the methods will be called to add indicators
 
-    #between
+    print("Please choose the number for the following")
+    for i in range(len(conditionEnum.conditionEnumList)):
+        print(i,". ",conditionEnum.conditionEnumList[i])
+    conditionNum = input()
+    conditionVal = conditionEnum.conditionEnumList[i]
+
+
     print("Please choose the number for which condition you want to use")
-    for i in range(len(Indicator.listOfIndicators)):
-        print(i+". "+Indicator.listOfIndicators[i].value)
+    for i in range(len(Indicator.indicatorList)):
+        print(i,". ",Indicator.indicatorList[i].value)
     indicatorNum = input()
+    secondIndicator = Indicator.getIndicator(indicatorNum)
 
+    currentCondition = Condition(firstIndicator, conditionVal, secondIndicator)
 
+    return currentCondition
 
-def changeBuyCondition(currentStradegy):
+def changeBuyCondition(conditions):
+    buyConditions = conditions
     userInput = None
-    if (len(currentStradegy.buyConditions)==0):
+    if (len(buyConditions)==0):
         userInput = input("You currently dont have any conditions, Press A to add, or X to go back")
     else:
         print("Here are your current buy conditions : ")
-        for condition in currentStradegy.buyConditions:
+        for condition in buyConditions:
             print(condition.stringVersion)
         userInput = input("Enter the condition number to make changes to it. Or press a to add condition, or press x to exit")
     userInput = userInput.capitalize()
 
     if userInput=="A":
-        currentStradegy.addBuyCondition(addCondition())
+        buyConditions.append(addCondition())
+
+    return buyConditions
     
 
-def changeSellCondition(currentStradegy):
+def changeSellCondition(conditions):
+    sellConditions = conditions
     userInput = None
-    if (len(currentStradegy.sellConditions)==0):
+    if (len(sellConditions)==0):
         userInput = input("You currently dont have any conditions, Press A to add, or X to go back")
     else:
-        print("Here are your current buy conditions : ")
-        for condition in currentStradegy.sellConditions:
+        print("Here are your current sell conditions : ")
+        for condition in sellConditions:
             print(condition.stringVersion)
         userInput = input("Enter the condition number to make changes to it. Or press a to add condition, or press x to exit")
     userInput = userInput.capitalize()
 
     if userInput=="A":
-        currentStradegy.addSellCondition(addCondition())
+        sellConditions.append(addCondition())
+
+    return sellConditions
 
 
 def createStradegy():
@@ -71,9 +87,9 @@ def createStradegy():
 
     userInput = userInput.lower()
     if (userInput == "s"):
-        changeSellCondition(currentStradegy)
+        currentStradegy.sellCondition = changeSellCondition(currentStradegy.sellCondition)
     elif (userInput == "b"):
-        changeBuyCondition(currentStradegy)
+        currentStradegy.buyCondition = changeBuyCondition(currentStradegy.buyCondition)
     elif (userInput == "x"):
         if (len(currentStradegy.buyCondition)>0 and len(currentStradegy.sellCondition)>0):
             stradegyReport = currentStradegy.run()
